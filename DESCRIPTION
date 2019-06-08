@@ -8,7 +8,7 @@ Maintainer: Joshua O'Brien <joshmobrien@gmail.com>
 Description:
   This package provides fast drop-in replacements for several
   relatively slow raster package functions. For large rasters, the
-  functions run 15 to 20 or more times faster than the raster package
+  functions run 5 to 20 or more times faster than the raster package
   functions they replace.
 Depends:
   raster,
