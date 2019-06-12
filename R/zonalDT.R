@@ -29,30 +29,44 @@
 ##' ## for smaller files you can also provide a function
 ##' zonalDT(r, z, mean)
 ##' zonalDT(r, z, min)
-zonalDT <- function(VAL, ZONE, fun = sum) {
+zonalDT <- function(VAL, ZONE, fun = sum, na.rm = TRUE) {
     fun <- match.fun(fun)
+    nx <- nlayers(VAL)
     if (canProcessInMemory(VAL)) {
-    #if (FALSE) {
+    ## if (FALSE) {
+        ll <- vector(mode = "list", length = nx)
+        names(ll) <- names(VAL)
         DT <- data.table(VAL = getValues(VAL),
                          ZONE = getValues(ZONE))
-        X <- DT[, .(VAL = fun(VAL)), by = ZONE]
-        ## X <- X[complete.cases(X),]
-        setkey(X, "ZONE")
-        X
+        for (j in 1:nx) {
+            X <- DT[, fun(.SD[[j]], na.rm = na.rm), by = ZONE]
+            names(X) <- c("ZONE", names(VAL)[j])
+            setkey(X, "ZONE")
+            ll[[j]] <- X
+        }
+        X <- Reduce(merge, ll)
+        return(X)
     } else {
         tr <- blockSize(VAL)
         res <- vector(mode = "list", length = tr$n)
         for (i in 1:tr$n) {
+            ll <- vector(mode = "list", length = nx)
+            names(ll) <- names(VAL)
             DT <- data.table(VAL = getValues(VAL, row = tr$row[i],
                                              nrows = tr$nrows[i]),
                              ZONE = getValues(ZONE, row = tr$row[i],
                                               nrows = tr$nrows[i]))
-            X <- DT[, .(VAL = fun(VAL)), by = ZONE]
-            ## X <- X[complete.cases(X), ]
-            res[[i]] <- X
+            for (j in 1:nx) {
+                X <- DT[, fun(.SD[[j]], na.rm = na.rm), by = ZONE]
+                names(X) <- c("ZONE", names(VAL)[j])
+                setkey(X, "ZONE")
+                ll[[j]] <- X
+            }
+            res[[i]] <- Reduce(merge, ll)
         }
         X <- rbindlist(res)
-        X <- X[, .(VAL = fun(VAL)), by = "ZONE"]
+        X <- X[, lapply(.SD, fun, na.rm = na.rm), by="ZONE",
+               .SDcols = names(X)[-1]]
         setkey(X, "ZONE")
         X
     }

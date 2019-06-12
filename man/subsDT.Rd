@@ -4,23 +4,30 @@
 \alias{subsDT}
 \title{Speedy Substitution of Values in a RasterLayer}
 \usage{
-subsDT(r, dict, by = "ID", which = "VAL", filename = "", ...)
+subsDT(x, dict, by = 1, which = 2, subsWithNA = TRUE,
+  filename = "", ...)
 }
 \arguments{
-\item{r}{Categorical \code{RasterLayer} with integer values giving
+\item{x}{Categorical \code{RasterLayer} with integer values giving
 field class.}
 
 \item{dict}{A \code{data.frame} or \code{data.table} with one
-column corresponding to the levels of cells in \code{r} and
+column corresponding to the levels of cells in \code{x} and
 another column giving the value to which each level should be
 mapped.}
 
 \item{by}{Character string giving the name of the column in
-\code{dict} containing the categorical values in \code{r}.}
+\code{dict} containing the categorical values in \code{x}.}
 
 \item{which}{Character string giving name of the column in
 \code{dict} with the numerical values to which each value in
 \code{by} should be mapped.}
+
+\item{subsWithNA}{Logical. If 'TRUE' values that are not matched
+become NA.  If 'FALSE', they retain their original value
+(which could also be 'NA'). This latter option is handy when
+you want to replace only one or a few values. It cannot be
+used when 'x' has multiple layers}
 
 \item{filename}{Character string giving (optional) file name.}
 

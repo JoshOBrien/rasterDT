@@ -3,17 +3,22 @@
 ##' \code{\link[raster:substitute]{raster::subs()}}.
 ##'
 ##' @title Speedy Substitution of Values in a RasterLayer
-##' @param r Categorical \code{RasterLayer} with integer values giving
+##' @param x Categorical \code{RasterLayer} with integer values giving
 ##'     field class.
 ##' @param dict A \code{data.frame} or \code{data.table} with one
-##'     column corresponding to the levels of cells in \code{r} and
+##'     column corresponding to the levels of cells in \code{x} and
 ##'     another column giving the value to which each level should be
 ##'     mapped.
 ##' @param by Character string giving the name of the column in
-##'     \code{dict} containing the categorical values in \code{r}.
+##'     \code{dict} containing the categorical values in \code{x}.
 ##' @param which Character string giving name of the column in
 ##'     \code{dict} with the numerical values to which each value in
 ##'     \code{by} should be mapped.
+##' @param subsWithNA Logical. If 'TRUE' values that are not matched
+##'     become NA.  If 'FALSE', they retain their original value
+##'     (which could also be 'NA'). This latter option is handy when
+##'     you want to replace only one or a few values. It cannot be
+##'     used when 'x' has multiple layers
 ##' @param filename Character string giving (optional) file name.
 ##' @param ... Additional arguments as for
 ##'     \code{\link[raster:writeRaster]{raster::writeRaster()}}, on
@@ -31,16 +36,36 @@
 ##' dict <- data.table(ID = 1:5, VAL = rnorm(5))
 ##' out <- subsDT(r, dict)
 ##' plot(out)
-subsDT <- function(r, dict,
-                   by = "ID", which = "VAL",
+subsDT <- function(x, dict,
+                   by = 1, which = 2,
+                   subsWithNA = TRUE,
                    filename = "", ...)  {
-    out <- raster(r)
+    nx <- nlayers(x)
+    if(is.numeric(by)) by <- names(dict)[by]
+    if(is.numeric(which)) which <- names(dict)[which]
+    by <- rep(by, length.out = nx)
+    which <- rep(which, length.out = nx)
     dict <- data.table(dict, key = by)
-    if (canProcessInMemory(r, 3)) {
+    if (nx == 1) {
+        out <- raster(x)
+    } else {
+        out <- brick(x, nl = nx)
+    }
+    if (canProcessInMemory(x, 3)) {
         ## Execute the substitution
-        DT <- data.table(ID = getValues(r))
+        ll <- vector(mode = "list", length = nx)
+        names(ll) <- names(x)
+        DT <- data.table(ID = getValues(x))
         names(DT) <- by
-        vals <- dict[DT, , on = by, nomatch = NULL][[which]]
+        for (i in 1:nx) {
+            vals <- dict[DT[, ..i], , on = by[i]][[which[i]]]
+            if (isFALSE(subsWithNA)) {
+                nn <- is.na(vals)
+                vals[nn] <- DT[[i]][nn]
+            }
+            ll[[i]] <- vals
+        }
+        vals <- as.matrix(as.data.table(ll))
         out <- setValues(out, vals)
         out@data@isfactor <- FALSE
         out@data@attributes <- list()
@@ -56,11 +81,20 @@ subsDT <- function(r, dict,
         tr <- blockSize(out)
         for (i in seq_len(tr$n)) {
             ## Execute the substitution
-            DT <- data.table(ID = getValues(r, row = tr$row[i],
+            ll <- vector(mode = "list", length = nx)
+            names(ll) <- names(x)
+            DT <- data.table(ID = getValues(x, row = tr$row[i],
                                             nrows = tr$nrows[i]))
             names(DT) <- by
-            vals <- dict[DT, , on = by, nomatch = NULL][[which]]
-            ## Write a block to disk rather than all at once
+            for (j in 1:nx) {
+                vals <- dict[DT[, ..j], , on = by[j]][[which[j]]]
+                if (isFALSE(subsWithNA)) {
+                    nn <- is.na(vals)
+                    vals[nn] <- DT[[j]][nn]
+                }
+                ll[[j]] <- vals
+            }
+            vals <- as.matrix(as.data.table(ll))
             out <- writeValues(out, vals, tr$row[i])
         }
         out@data@isfactor <- FALSE

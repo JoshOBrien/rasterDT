@@ -22,7 +22,7 @@ setGeneric("freqDT", function(x, ...)
 ##' @export
 ##' @author Joshua O'Brien
 ##' @examples
-##' r <- raster(nrow=18, ncol=36)
+##' r <- raster(nrow = 18, ncol = 36)
 ##' r[] <- runif(ncell(r))
 ##' r[1:5] <- NA
 ##' r <- r * r * r * 5
@@ -31,7 +31,7 @@ setGeneric("freqDT", function(x, ...)
 ##' freqDT(r, value=2)
 ##'
 ##' s <- stack(r, r*2, r*3)
-##' freqDT(s, merge=TRUE)
+##' freqDT(s, merge = TRUE)
 setMethod("freqDT", signature(x = "RasterLayer"),
 ## freqDT <- function(r, digits = 0,
     function(x, digits = 0,
