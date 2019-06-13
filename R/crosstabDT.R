@@ -23,7 +23,7 @@
 ##' crosstabDT(r,s)
 crosstabDT <- function(x, y, digits = 0,
                        long = FALSE, useNA = FALSE) {
-    if(canProcessInMemory(x)) {
+    if (canProcessInMemory(x)) {
         if (nlayers(x) == 1) {
             DT <- data.table(x = getValues(x),
                              y = getValues(y))
@@ -37,9 +37,7 @@ crosstabDT <- function(x, y, digits = 0,
         X <- DT[, .(Freq = .N), by = names(DT)]
         setkeyv(X, names(X))
         if (!long) {
-            nms <- setdiff(names(X), "Freq")
-            f <- reformulate(nms, "Freq")
-            X <- stats::xtabs(f, data = X, addNA = useNA)
+            X <- fxtabs(X)
         }
         return(X)
     } else {
@@ -69,11 +67,25 @@ crosstabDT <- function(x, y, digits = 0,
         setkeyv(X, nms)
         X <- X[, .(Freq = sum(Freq)), by = nms]
         if (!long) {
-            nms <- setdiff(names(X), "Freq")
-            f <- reformulate(nms, "Freq")
-            X <- stats::xtabs(f, data = X, addNA = useNA)
+            X <- fxtabs(X)
         }
         return(X)
 
     }
+}
+
+
+fxtabs <- function(X) {
+    X <- copy(X)
+    vals <- X[["Freq"]]
+    ## Prepare empty array
+    X[, Freq := NULL]
+    dd <- lapply(X, function(x) sort(unique(x), na.last = TRUE))
+    res <- array(dim = lengths(dd), data = 0L, dimnames = dd)
+    ## Prepare index for assignment of non-zero frequencies
+    ii <- X[, lapply(.SD, function(v) as.numeric(addNA(v)))]
+    ii <- as.matrix(ii)
+    ## Assign non-values into the array
+    res[ii] <- vals
+    res
 }
