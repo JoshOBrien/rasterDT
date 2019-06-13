@@ -4,7 +4,7 @@
 \alias{zonalDT}
 \title{Speedy Zonal Statistics}
 \usage{
-zonalDT(VAL, ZONE, fun = sum)
+zonalDT(VAL, ZONE, fun = sum, na.rm = TRUE)
 }
 \arguments{
 \item{VAL}{A \code{RasterLayer} to the totality of whose values

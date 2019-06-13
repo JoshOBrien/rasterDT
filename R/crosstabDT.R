@@ -3,16 +3,16 @@
 ##' \code{\link[raster:crosstab]{raster::crosstab()}}.
 ##'
 ##' @title Speedy Cross-tabulation of Two Categorical Rasters
-##' @param ID A \code{RasterLayer} whose values give the index of the
+##' @param x A \code{RasterLayer} whose values give the index of the
 ##'     \code{POLYGON} or \code{MULTIPOLYGON} fragment from which each
 ##'     cell was rasterized.
-##' @param VAL A categorical \code{RasterLayer} whose values indicate
+##' @param y A categorical \code{RasterLayer} whose values indicate
 ##'     the habitat classification of the area represented by each
 ##'     cell.
 ##' @return A \code{data.table} recording the frequency of each
 ##'     habitat type within each indexed area. The first column,
-##'     \code{"ID"}, gives an index corresponding to the \code{"ID"}
-##'     column of the \code{sp} layer object from which the \code{ID}
+##'     \code{"x"}, gives an index corresponding to the \code{"x"}
+##'     column of the \code{sp} layer object from which the \code{x}
 ##'     raster was rasterized.
 ##' @export
 ##' @author Joshua O'Brien
@@ -21,29 +21,59 @@
 ##' r[] <- sample(5, 25, replace = TRUE)
 ##' s <- setValues(r, sample(2, 25, replace = TRUE))
 ##' crosstabDT(r,s)
-crosstabDT <- function(ID, VAL) {
-    if(canProcessInMemory(ID)) {
-        DT <- data.table(ID = getValues(ID),
-                         VAL = getValues(VAL))
-        X <- DT[,.N, by = c("ID", "VAL")]
-        X <- X[complete.cases(X),]
-        setkeyv(X, c("ID", "VAL"))
-        dcast(X, ID ~ VAL, value.var = "N", fill = 0)
+crosstabDT <- function(x, y, digits = 0,
+                       long = FALSE, useNA = FALSE) {
+    if(canProcessInMemory(x)) {
+        if (nlayers(x) == 1) {
+            DT <- data.table(x = getValues(x),
+                             y = getValues(y))
+        } else {
+            DT <- data.table(getValues(x))
+        }
+        DT <- round(DT, digits)
+        if (!useNA) {
+            DT <- DT[complete.cases(DT),]
+        }
+        X <- DT[, .(Freq = .N), by = names(DT)]
+        setkeyv(X, names(X))
+        if (!long) {
+            nms <- setdiff(names(X), "Freq")
+            f <- reformulate(nms, "Freq")
+            X <- stats::xtabs(f, data = X, addNA = useNA)
+        }
+        return(X)
     } else {
-        tr <- blockSize(ID)
+        tr <- blockSize(x)
         res <- vector(mode = "list", length = tr$n)
         for (i in 1:tr$n) {
-            DT <- data.table(ID = getValues(ID, row = tr$row[i],
-                                            nrows = tr$nrows[i]),
-                             VAL = getValues(VAL, row = tr$row[i],
-                                             nrows = tr$nrows[i]))
-            X <- DT[, .N, by = c("ID", "VAL")]
-            X <- X[complete.cases(X), ]
-            setkeyv(X, c("ID", "VAL"))
+            ##
+            if (nlayers(x) == 1) {
+                data.table(x = getValues(x, row = tr$row[i],
+                                         nrows = tr$nrows[i]),
+                           y = getValues(y, row = tr$row[i],
+                                         nrows = tr$nrows[i]))
+            } else {
+                DT <- data.table(getValues(x, row = tr$row[i],
+                                            nrows = tr$nrows[i]))
+            }
+            ##
+            DT <- round(DT, digits)
+            if (!useNA) {
+                DT <- DT[complete.cases(DT),]
+            }
+            X <- DT[, .(Freq = .N), by = names(DT)]
             res[[i]] <- X
         }
         X <- rbindlist(res)
-        X <- X[, .(N = sum(N)), by = c("ID", "VAL")]
-        dcast(X, ID ~ VAL, value.var = "N", fill = 0)
+        nms <- setdiff(names(x), "Freq")
+        setkeyv(X, nms)
+        X <- X[, .(Freq = sum(Freq)), by = nms]
+        if (!long) {
+            nms <- setdiff(names(X), "Freq")
+            f <- reformulate(nms, "Freq")
+            X <- stats::xtabs(f, data = X, addNA = useNA)
+        }
+        return(X)
+
     }
 }

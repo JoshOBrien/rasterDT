@@ -4,22 +4,22 @@
 \alias{crosstabDT}
 \title{Speedy Cross-tabulation of Two Categorical Rasters}
 \usage{
-crosstabDT(ID, VAL)
+crosstabDT(x, y, digits = 0, long = FALSE, useNA = FALSE)
 }
 \arguments{
-\item{ID}{A \code{RasterLayer} whose values give the index of the
+\item{x}{A \code{RasterLayer} whose values give the index of the
 \code{POLYGON} or \code{MULTIPOLYGON} fragment from which each
 cell was rasterized.}
 
-\item{VAL}{A categorical \code{RasterLayer} whose values indicate
+\item{y}{A categorical \code{RasterLayer} whose values indicate
 the habitat classification of the area represented by each
 cell.}
 }
 \value{
 A \code{data.table} recording the frequency of each
     habitat type within each indexed area. The first column,
-    \code{"ID"}, gives an index corresponding to the \code{"ID"}
-    column of the \code{sp} layer object from which the \code{ID}
+    \code{"x"}, gives an index corresponding to the \code{"x"}
+    column of the \code{sp} layer object from which the \code{x}
     raster was rasterized.
 }
 \description{
