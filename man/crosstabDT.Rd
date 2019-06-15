@@ -2,35 +2,44 @@
 % Please edit documentation in R/crosstabDT.R
 \name{crosstabDT}
 \alias{crosstabDT}
-\title{Speedy Cross-tabulation of Two Categorical Rasters}
+\title{Speedy Raster Cross-tabulation}
 \usage{
 crosstabDT(x, y, digits = 0, long = FALSE, useNA = FALSE)
 }
 \arguments{
-\item{x}{A \code{RasterLayer} whose values give the index of the
-\code{POLYGON} or \code{MULTIPOLYGON} fragment from which each
-cell was rasterized.}
+\item{x}{A \code{Raster*} object}
 
-\item{y}{A categorical \code{RasterLayer} whose values indicate
-the habitat classification of the area represented by each
-cell.}
+\item{y}{If \code{x} has just one layer, a \code{RasterLayer}
+object. Otherwise, if \code{x} is a multi-layered
+\code{RasterStack} or \code{RasterBrick}, this argument (if
+any) is unused.}
+
+\item{digits}{Integer. The number of digits for rounding the
+values before cross-tabulation. Default is \code{0}.}
+
+\item{long}{Logical. If \code{TRUE}, the results are returned in a
+'long' format \code{data.table} instead of as a table. Default
+is \code{FALSE}.}
+
+\item{useNA}{Logical. Should the returned table or
+\code{data.table} include counts of \code{NA} values? Default
+is \code{FALSE}.}
 }
 \value{
-A \code{data.table} recording the frequency of each
-    habitat type within each indexed area. The first column,
-    \code{"x"}, gives an index corresponding to the \code{"x"}
-    column of the \code{sp} layer object from which the \code{x}
-    raster was rasterized.
+Either a table or a \code{data.table} recording the
+    frequency of each combination of Raster values.
 }
 \description{
-A fast data.table-based drop-in replacement for
+A fast \code{data.table}-based alternative to
 \code{\link[raster:crosstab]{raster::crosstab()}}.
 }
 \examples{
+\dontrun{
 r <- raster(nc = 5, nr = 5)
 r[] <- sample(5, 25, replace = TRUE)
 s <- setValues(r, sample(2, 25, replace = TRUE))
 crosstabDT(r,s)
+}
 }
 \author{
 Joshua O'Brien

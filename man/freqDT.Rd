@@ -3,15 +3,17 @@
 \docType{methods}
 \name{freqDT}
 \alias{freqDT}
+\alias{freqDT,RasterLayer-method}
 \alias{freqDT,RasterStackBrick-method}
 \title{Speedy Frequency Tabulation of Values in a RasterLayer}
 \usage{
+freqDT(x, ...)
+
 \S4method{freqDT}{RasterLayer}(x, digits = 0, value = NULL,
-  useNA = c("ifany", "no", "always"), progress = "", ...)
+  useNA = c("ifany", "no", "always"), ...)
 
 \S4method{freqDT}{RasterStackBrick}(x, digits = 0, value = NULL,
-  useNA = c("ifany", "no", "always"), merge = FALSE, progress = "",
-  ...)
+  useNA = c("ifany", "no", "always"), merge = FALSE, ...)
 }
 \arguments{
 \item{x}{A \code{RasterLayer}, \code{RasterStack}, or
@@ -20,12 +22,26 @@
 \item{...}{Additional arguments as for
 \code{\link[raster:writeRaster]{raster::writeRaster()}}, on
 which this function relies.}
+
+\item{digits}{Integer for rounding the cell values. Argument is
+passed to \code{\link[base]{round}}}
+
+\item{value}{A single numeric, logical, or NA value. If supplied,
+\code{freqDT()} will only count the number of cells with that
+value.}
+
+\item{useNA}{Character (one of "no", "ifany", or "always"). What
+to do with NA values? See \code{\link[base]{table}} for details.}
+
+\item{merge}{Logical. If \code{TRUE} the list will be merged into
+a single \code{data.table}.}
 }
 \description{
-A fast \code{data.table}-based drop-in replacement for
+A fast \code{data.table}-based alternative to
 \code{\link[raster:freq]{raster::freq()}}.
 }
 \examples{
+\dontrun{
 r <- raster(nrow = 18, ncol = 36)
 r[] <- runif(ncell(r))
 r[1:5] <- NA
@@ -36,6 +52,7 @@ freqDT(r, value=2)
 
 s <- stack(r, r*2, r*3)
 freqDT(s, merge = TRUE)
+}
 }
 \author{
 Joshua O'Brien

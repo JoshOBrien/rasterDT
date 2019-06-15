@@ -2,7 +2,7 @@
 % Please edit documentation in R/subsDT.R
 \name{subsDT}
 \alias{subsDT}
-\title{Speedy Substitution of Values in a RasterLayer}
+\title{Speedy Substitution of Values in a Raster}
 \usage{
 subsDT(x, dict, by = 1, which = 2, subsWithNA = TRUE,
   filename = "", ...)
@@ -11,25 +11,28 @@ subsDT(x, dict, by = 1, which = 2, subsWithNA = TRUE,
 \item{x}{Categorical \code{RasterLayer} with integer values giving
 field class.}
 
-\item{dict}{A \code{data.frame} or \code{data.table} with one
-column corresponding to the levels of cells in \code{x} and
-another column giving the value to which each level should be
-mapped.}
+\item{dict}{A \code{data.frame} or \code{data.table} with one (or
+possibly more) columns corresponding to the values of cells in
+\code{x} and one (or possibly more) columns giving the value
+to which each value in \code{x} should be mapped.}
 
-\item{by}{Character string giving the name of the column in
+\item{by}{Vector of one or possibly more integers or character
+strings giving the indices or names of the column in
 \code{dict} containing the categorical values in \code{x}.}
 
-\item{which}{Character string giving name of the column in
+\item{which}{Vector of one or possibly more integers or character
+strings giving the indices or names of the column in
 \code{dict} with the numerical values to which each value in
 \code{by} should be mapped.}
 
-\item{subsWithNA}{Logical. If 'TRUE' values that are not matched
-become NA.  If 'FALSE', they retain their original value
-(which could also be 'NA'). This latter option is handy when
-you want to replace only one or a few values. It cannot be
-used when 'x' has multiple layers}
+\item{subsWithNA}{Logical. If \code{TRUE} values that are not
+matched become NA.  If \code{FALSE}, they retain their
+original value (which could also be \code{NA}). This latter
+option is handy when you want to replace only one or a few
+values. It cannot be used when \code{x} has multiple layers}
 
-\item{filename}{Character string giving (optional) file name.}
+\item{filename}{Character string giving (optional) file name to
+which the resultant raster should be written.}
 
 \item{...}{Additional arguments as for
 \code{\link[raster:writeRaster]{raster::writeRaster()}}, on
@@ -39,12 +42,11 @@ which this function relies.}
 A \code{RasterLayer} object.
 }
 \description{
-A fast \code{data.table}-based drop-in replacement for
+A fast \code{data.table}-based alternative to
 \code{\link[raster:substitute]{raster::subs()}}.
 }
 \examples{
-## Small example
-
+\dontrun{
 r <- raster(ncol = 10, nrow = 10)
 vals <- rep(1:5, each = 20)
 r <- setValues(r, vals)
@@ -52,6 +54,7 @@ set.seed(4)
 dict <- data.table(ID = 1:5, VAL = rnorm(5))
 out <- subsDT(r, dict)
 plot(out)
+}
 }
 \author{
 Joshua O'Brien

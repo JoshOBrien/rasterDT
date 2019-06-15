@@ -17,5 +17,5 @@
 ##' as.matrix(r_con)
 cat_to_val <- function(r) {
     dict <- levels(r)[[1]]
-    my_subs(r, dict)
+    subsDT(r, dict)
 }

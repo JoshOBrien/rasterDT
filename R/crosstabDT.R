@@ -1,26 +1,36 @@
 
-##' A fast data.table-based drop-in replacement for
+##' A fast \code{data.table}-based alternative to
 ##' \code{\link[raster:crosstab]{raster::crosstab()}}.
 ##'
-##' @title Speedy Cross-tabulation of Two Categorical Rasters
-##' @param x A \code{RasterLayer} whose values give the index of the
-##'     \code{POLYGON} or \code{MULTIPOLYGON} fragment from which each
-##'     cell was rasterized.
-##' @param y A categorical \code{RasterLayer} whose values indicate
-##'     the habitat classification of the area represented by each
-##'     cell.
-##' @return A \code{data.table} recording the frequency of each
-##'     habitat type within each indexed area. The first column,
-##'     \code{"x"}, gives an index corresponding to the \code{"x"}
-##'     column of the \code{sp} layer object from which the \code{x}
-##'     raster was rasterized.
+##' @title Speedy Raster Cross-tabulation
+##' @param x A \code{Raster*} object
+##' @param y If \code{x} has just one layer, a \code{RasterLayer}
+##'     object. Otherwise, if \code{x} is a multi-layered
+##'     \code{RasterStack} or \code{RasterBrick}, this argument (if
+##'     any) is unused.
+##' @param digits Integer. The number of digits for rounding the
+##'     values before cross-tabulation. Default is \code{0}.
+##' @param long Logical. If \code{TRUE}, the results are returned in a
+##'     'long' format \code{data.table} instead of as a table. Default
+##'     is \code{FALSE}.
+##' @param useNA Logical. Should the returned table or
+##'     \code{data.table} include counts of \code{NA} values? Default
+##'     is \code{FALSE}.
+##' @return Either a table or a \code{data.table} recording the
+##'     frequency of each combination of Raster values.
+##' @import methods
+##' @import raster
+##' @rawNamespace import(data.table, except = shift)
+##' @importFrom stats complete.cases
 ##' @export
 ##' @author Joshua O'Brien
 ##' @examples
+##' \dontrun{
 ##' r <- raster(nc = 5, nr = 5)
 ##' r[] <- sample(5, 25, replace = TRUE)
 ##' s <- setValues(r, sample(2, 25, replace = TRUE))
 ##' crosstabDT(r,s)
+##' }
 crosstabDT <- function(x, y, digits = 0,
                        long = FALSE, useNA = FALSE) {
     if (canProcessInMemory(x)) {
@@ -75,6 +85,11 @@ crosstabDT <- function(x, y, digits = 0,
 }
 
 
+## A fast replacement for stats::xtabs(Freq ~ ., X).
+##
+## Takes a data.table with at least three columns, one of which must
+## be named "Freq", and returns an object just like xtabs() would,
+## except without an attached formula attribute.
 fxtabs <- function(X) {
     X <- copy(X)
     vals <- X[["Freq"]]

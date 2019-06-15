@@ -1,10 +1,5 @@
 
-setGeneric("freqDT", function(x, ...)
-    standardGeneric("freqDT"))
-
-
-
-##' A fast \code{data.table}-based drop-in replacement for
+##' A fast \code{data.table}-based alternative to
 ##' \code{\link[raster:freq]{raster::freq()}}.
 ##'
 ##' @name freqDT
@@ -12,16 +7,22 @@ setGeneric("freqDT", function(x, ...)
 ##' @title Speedy Frequency Tabulation of Values in a RasterLayer
 ##' @param x A \code{RasterLayer}, \code{RasterStack}, or
 ##'     \code{RasterBrick} object field class.
-##' @param digits
-##' @param value
-##' @param useNA
-##' @param progress
+##' @param digits Integer for rounding the cell values. Argument is
+##'     passed to \code{\link[base]{round}}
+##' @param value A single numeric, logical, or NA value. If supplied,
+##'     \code{freqDT()} will only count the number of cells with that
+##'     value.
+##' @param useNA Character (one of "no", "ifany", or "always"). What
+##'     to do with NA values? See \code{\link[base]{table}} for details.
+##' @param merge Logical. If \code{TRUE} the list will be merged into
+##'     a single \code{data.table}.
 ##' @param ... Additional arguments as for
 ##'     \code{\link[raster:writeRaster]{raster::writeRaster()}}, on
 ##'     which this function relies.
 ##' @export
 ##' @author Joshua O'Brien
 ##' @examples
+##' \dontrun{
 ##' r <- raster(nrow = 18, ncol = 36)
 ##' r[] <- runif(ncell(r))
 ##' r[1:5] <- NA
@@ -32,12 +33,19 @@ setGeneric("freqDT", function(x, ...)
 ##'
 ##' s <- stack(r, r*2, r*3)
 ##' freqDT(s, merge = TRUE)
+##' }
+setGeneric("freqDT", function(x, ...)
+    standardGeneric("freqDT"))
+
+
+
+##' @rdname freqDT
+##' @export
 setMethod("freqDT", signature(x = "RasterLayer"),
-## freqDT <- function(r, digits = 0,
     function(x, digits = 0,
              value = NULL,
              useNA = c("ifany", "no", "always"),
-             progress = "", ...)  {
+             ...)  {
         useNA <- match.arg(useNA)
 
         ## Count number of cells of a particular value
@@ -107,7 +115,7 @@ setMethod("freqDT", signature(x = "RasterStackBrick"),
              value = NULL,
              useNA = c("ifany", "no", "always"),
              merge = FALSE,
-             progress = "", ...) {
+             ...) {
         nl <- nlayers(x)
         res <- list()
         for (i in 1:nl) {

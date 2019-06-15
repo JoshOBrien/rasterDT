@@ -1,25 +1,28 @@
 
-##' A fast \code{data.table}-based drop-in replacement for
+##' A fast \code{data.table}-based alternative to
 ##' \code{\link[raster:substitute]{raster::subs()}}.
 ##'
-##' @title Speedy Substitution of Values in a RasterLayer
+##' @title Speedy Substitution of Values in a Raster
 ##' @param x Categorical \code{RasterLayer} with integer values giving
 ##'     field class.
-##' @param dict A \code{data.frame} or \code{data.table} with one
-##'     column corresponding to the levels of cells in \code{x} and
-##'     another column giving the value to which each level should be
-##'     mapped.
-##' @param by Character string giving the name of the column in
+##' @param dict A \code{data.frame} or \code{data.table} with one (or
+##'     possibly more) columns corresponding to the values of cells in
+##'     \code{x} and one (or possibly more) columns giving the value
+##'     to which each value in \code{x} should be mapped.
+##' @param by Vector of one or possibly more integers or character
+##'     strings giving the indices or names of the column in
 ##'     \code{dict} containing the categorical values in \code{x}.
-##' @param which Character string giving name of the column in
+##' @param which Vector of one or possibly more integers or character
+##'     strings giving the indices or names of the column in
 ##'     \code{dict} with the numerical values to which each value in
 ##'     \code{by} should be mapped.
-##' @param subsWithNA Logical. If 'TRUE' values that are not matched
-##'     become NA.  If 'FALSE', they retain their original value
-##'     (which could also be 'NA'). This latter option is handy when
-##'     you want to replace only one or a few values. It cannot be
-##'     used when 'x' has multiple layers
-##' @param filename Character string giving (optional) file name.
+##' @param subsWithNA Logical. If \code{TRUE} values that are not
+##'     matched become NA.  If \code{FALSE}, they retain their
+##'     original value (which could also be \code{NA}). This latter
+##'     option is handy when you want to replace only one or a few
+##'     values. It cannot be used when \code{x} has multiple layers
+##' @param filename Character string giving (optional) file name to
+##'     which the resultant raster should be written.
 ##' @param ... Additional arguments as for
 ##'     \code{\link[raster:writeRaster]{raster::writeRaster()}}, on
 ##'     which this function relies.
@@ -27,8 +30,7 @@
 ##' @export
 ##' @author Joshua O'Brien
 ##' @examples
-##' ## Small example
-##'
+##' \dontrun{
 ##' r <- raster(ncol = 10, nrow = 10)
 ##' vals <- rep(1:5, each = 20)
 ##' r <- setValues(r, vals)
@@ -36,6 +38,7 @@
 ##' dict <- data.table(ID = 1:5, VAL = rnorm(5))
 ##' out <- subsDT(r, dict)
 ##' plot(out)
+##' }
 subsDT <- function(x, dict,
                    by = 1, which = 2,
                    subsWithNA = TRUE,

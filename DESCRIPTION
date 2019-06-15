@@ -1,16 +1,16 @@
 Package: rasterDT
 Type: Package
-Title: Fast raster summary and manipulation with raster and data.table 
+Title: Fast Raster Summary and Manipulation 
 Version: 0.1.0
 Date: 2019-06-07
 Author: Joshua O'Brien
 Maintainer: Joshua O'Brien <joshmobrien@gmail.com>
 Description:
-  This package provides fast drop-in replacements for several
-  relatively slow raster package functions. For large rasters, the
-  functions run 5 to 20 or more times faster than the raster package
-  functions they replace.
+  Fast alternatives to several relatively slow raster package
+  functions. For large rasters, the functions run from 3 to more than
+  100 times faster than the raster package functions they replace.
 Depends:
+  methods,
   raster,
   data.table
 LazyData: true

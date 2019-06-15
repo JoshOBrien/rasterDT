@@ -2,6 +2,11 @@
 
 export(cat_to_val)
 export(crosstabDT)
+export(freqDT)
 export(subsDT)
 export(zonalDT)
 exportMethods(freqDT)
+import(data.table, except = shift)
+import(methods)
+import(raster)
+importFrom(stats,complete.cases)

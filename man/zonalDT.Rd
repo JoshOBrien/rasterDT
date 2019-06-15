@@ -4,32 +4,36 @@
 \alias{zonalDT}
 \title{Speedy Zonal Statistics}
 \usage{
-zonalDT(VAL, ZONE, fun = sum, na.rm = TRUE)
+zonalDT(x, z, fun = sum, na.rm = TRUE)
 }
 \arguments{
-\item{VAL}{A \code{RasterLayer} to the totality of whose values
+\item{x}{A \code{Raster*} to the totality of whose values
 \code{fun} should be applied within each zone.}
 
-\item{ZONE}{A categorical \code{RasterLayer} with codes
-representing zones.}
+\item{z}{A categorical \code{RasterLayer} with codes representing
+zones.}
 
 \item{fun}{A name or character string giving the function to be
 applied to summarize the values by zone. It needs to return a
-single (or at least a length-one vector). If \code{VAL} might
+single (or at least a length-one vector). If \code{x} might
 contain any \code{NA} values, it should be equipped to handle
 them. For large rasters, this function needs to be one, like
 \code{sum()} whose value is the same even if carried out in a
 two-stage application (i.e. first to data subsets and then to
 the results of those subset applications).}
+
+\item{na.rm}{Logical. If \code{TRUE}, \code{NA} values in \code{x}
+are ignored.}
 }
 \value{
 A \code{data.table} with a summary value for each zone.
 }
 \description{
-A fast data.table-based partial replacement for
+A fast \code{data.table}-based alternative to
 \code{\link[raster:zonal]{raster::zonal()}}.
 }
 \examples{
+\dontrun{
 r <- raster(ncols = 10, nrows = 10)
 r[] <- runif(ncell(r)) * 1:ncell(r)
 z <- r
@@ -40,6 +44,7 @@ zonalDT(r, z, 'sum')
 ## for smaller files you can also provide a function
 zonalDT(r, z, mean)
 zonalDT(r, z, min)
+}
 }
 \author{
 Joshua O'Brien
