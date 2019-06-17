@@ -34,12 +34,16 @@ A fast \code{data.table}-based alternative to
 \code{\link[raster:crosstab]{raster::crosstab()}}.
 }
 \examples{
-\dontrun{
 r <- raster(nc = 5, nr = 5)
-r[] <- sample(5, 25, replace = TRUE)
-s <- setValues(r, sample(2, 25, replace = TRUE))
-crosstabDT(r,s)
-}
+r[] <- runif(ncell(r)) * 2
+s <- setValues(r, runif(ncell(r)) * 3)
+crosstabDT(r, s)
+
+rs <- r/s
+r[1:5] <- NA
+s[20:25] <- NA
+x <- stack(r, s, rs)
+crosstabDT(x, useNA = TRUE, long = TRUE)
 }
 \author{
 Joshua O'Brien

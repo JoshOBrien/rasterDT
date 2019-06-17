@@ -25,15 +25,21 @@
 ##' @export
 ##' @author Joshua O'Brien
 ##' @examples
-##' \dontrun{
 ##' r <- raster(nc = 5, nr = 5)
-##' r[] <- sample(5, 25, replace = TRUE)
-##' s <- setValues(r, sample(2, 25, replace = TRUE))
-##' crosstabDT(r,s)
-##' }
+##' r[] <- runif(ncell(r)) * 2
+##' s <- setValues(r, runif(ncell(r)) * 3)
+##' crosstabDT(r, s)
+##'
+##' rs <- r/s
+##' r[1:5] <- NA
+##' s[20:25] <- NA
+##' x <- stack(r, s, rs)
+##' crosstabDT(x, useNA = TRUE, long = TRUE)
 crosstabDT <- function(x, y, digits = 0,
                        long = FALSE, useNA = FALSE) {
-    compareRaster(x, y)
+    if (!missing(y)) {
+        compareRaster(x, y)
+    }
     if (canProcessInMemory(x)) {
         if (nlayers(x) == 1) {
             DT <- data.table(x = getValues(x),

@@ -21,24 +21,24 @@
 ##' @export
 ##' @author Joshua O'Brien
 ##' @examples
-##' \dontrun{
 ##' r <- raster(ncols = 10, nrows = 10)
 ##' r[] <- runif(ncell(r)) * 1:ncell(r)
 ##' z <- r
-##' z[] <- rep(1:5, each=20)
+##' z[] <- rep(1:5, each = 20)
 ##' ## for big files, use a character value rather than a function
-##' zonalDT(r, z, 'sum')
+##' zonalDT(r, z, "sum")
 ##'
 ##' ## for smaller files you can also provide a function
 ##' zonalDT(r, z, mean)
 ##' zonalDT(r, z, min)
-##' }
+##'
+##' ## multiple layers
+##' zonalDT(stack(r, r*10), z, "sum")
 zonalDT <- function(x, z, fun = sum, na.rm = TRUE) {
     compareRaster(x, z)
     fun <- match.fun(fun)
     nx <- nlayers(x)
     if (canProcessInMemory(x)) {
-    ## if (FALSE) {
         ll <- vector(mode = "list", length = nx)
         names(ll) <- names(x)
         DT <- data.table(x = getValues(x),

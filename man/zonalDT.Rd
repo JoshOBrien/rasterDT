@@ -33,18 +33,19 @@ A fast \code{data.table}-based alternative to
 \code{\link[raster:zonal]{raster::zonal()}}.
 }
 \examples{
-\dontrun{
 r <- raster(ncols = 10, nrows = 10)
 r[] <- runif(ncell(r)) * 1:ncell(r)
 z <- r
-z[] <- rep(1:5, each=20)
+z[] <- rep(1:5, each = 20)
 ## for big files, use a character value rather than a function
-zonalDT(r, z, 'sum')
+zonalDT(r, z, "sum")
 
 ## for smaller files you can also provide a function
 zonalDT(r, z, mean)
 zonalDT(r, z, min)
-}
+
+## multiple layers
+zonalDT(stack(r, r*10), z, "sum")
 }
 \author{
 Joshua O'Brien

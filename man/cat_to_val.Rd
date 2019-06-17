@@ -31,8 +31,12 @@ r_cat <- raster(matrix(c(2, 2, 2, 1), ncol = 2))
 levels(r_cat) <- data.frame(ID = c(1, 2),
                             VAL1 = c(0.1, 200),
                             VAL2 = c(33, 44))
+
+## Second column of RAT is used by default
 r_con1 <- cat_to_val(r_cat)
 as.matrix(r_con1)
+
+## Use `which=` argument for conversion to another RAT column
 r_con2 <- cat_to_val(r_cat, which = "VAL2")
 as.matrix(r_con2)
 }

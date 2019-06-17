@@ -46,15 +46,19 @@ A fast \code{data.table}-based alternative to
 \code{\link[raster:substitute]{raster::subs()}}.
 }
 \examples{
-\dontrun{
 r <- raster(ncol = 10, nrow = 10)
-vals <- rep(1:5, each = 20)
-r <- setValues(r, vals)
-set.seed(4)
-dict <- data.table(ID = 1:5, VAL = rnorm(5))
-out <- subsDT(r, dict)
-plot(out)
-}
+r[] <- round(runif(ncell(r)) * 10)
+df <- data.frame(id = 2:8, v = c(10, 10, 11, 11, 12:14))
+x <- subsDT(r, df)
+x2 <- subsDT(r, df, subsWithNA = FALSE)
+
+df$v2 <- df$v * 10
+x3 <- subsDT(r, df, which = 2:3)
+
+s <- stack(r, r*3)
+names(s) <- c("first", "second")
+x4 <- subsDT(s, df)
+x5 <- subsDT(s, df, which = 2:3)
 }
 \author{
 Joshua O'Brien
