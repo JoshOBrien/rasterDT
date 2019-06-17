@@ -40,7 +40,20 @@ A front end for
 several of its infelicities.
 }
 \examples{
-\dontrun{
+SPDF <- shapefile(system.file("external/lux.shp", package = "raster"))
+llratio <- 1/cos(pi * mean(coordinates(SPDF)[,2])/180)
+rr <- raster(extent(SPDF),
+             resolution = c(llratio * 0.01, 0.01),
+             crs = proj4string(SPDF))
+
+## An integer-valued field produces a numeric raster
+rInt <- fasterizeDT(SPDF, rr, field = "ID_2")
+plot(rInt, col = colorRampPalette(blues9)(12))
+
+## A character-valued field returns a factor raster
+rFac <- fasterizeDT(SPDF, rr, field = "NAME_2")
+if (require(rasterVis)) {
+    levelplot(rFac)
 }
 }
 \author{
