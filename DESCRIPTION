@@ -1,14 +1,15 @@
 Package: rasterDT
 Type: Package
 Title: Fast Raster Summary and Manipulation 
-Version: 0.1.0
-Date: 2019-06-07
+Version: 0.2.0
+Date: 2019-06-17
 Author: Joshua O'Brien
 Maintainer: Joshua O'Brien <joshmobrien@gmail.com>
 Description:
   Fast alternatives to several relatively slow raster package
-  functions. For large rasters, the functions run from 3 to more than
-  100 times faster than the raster package functions they replace.
+  functions. For large rasters, the functions run from 5 to
+  approximately 100 times faster than the raster package functions
+  they replace.
 Depends:
   methods,
   raster,

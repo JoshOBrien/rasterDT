@@ -34,6 +34,7 @@
 ##' zonalDT(r, z, min)
 ##' }
 zonalDT <- function(x, z, fun = sum, na.rm = TRUE) {
+    compareRaster(x, z)
     fun <- match.fun(fun)
     nx <- nlayers(x)
     if (canProcessInMemory(x)) {
@@ -49,6 +50,9 @@ zonalDT <- function(x, z, fun = sum, na.rm = TRUE) {
             ll[[j]] <- X
         }
         X <- Reduce(merge, ll)
+        if (na.rm) {
+            X <- X[complete.cases(X), ]
+        }
         return(X)
     } else {
         tr <- blockSize(x)
@@ -69,9 +73,12 @@ zonalDT <- function(x, z, fun = sum, na.rm = TRUE) {
             res[[i]] <- Reduce(merge, ll)
         }
         X <- rbindlist(res)
-        X <- X[, lapply(.SD, fun, na.rm = na.rm), by="z",
+        X <- X[, lapply(.SD, fun, na.rm = na.rm), by = "z",
                .SDcols = names(X)[-1]]
         setkey(X, "z")
+        if (na.rm) {
+            X <- X[complete.cases(X), ]
+        }
         X
     }
 }

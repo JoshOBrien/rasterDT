@@ -33,6 +33,7 @@
 ##' }
 crosstabDT <- function(x, y, digits = 0,
                        long = FALSE, useNA = FALSE) {
+    compareRaster(x, y)
     if (canProcessInMemory(x)) {
         if (nlayers(x) == 1) {
             DT <- data.table(x = getValues(x),
