@@ -1,21 +1,30 @@
 
-##' Use its RAT to Convert a Categorical Raster to a Continuous Raster
+##' Use a Categorical Raster's RAT to convert it to a Continuous
+##' Raster
 ##' @title Convert a Categorical Raster to a Value Raster
-##' @param r A categorical raster whose RAT (returned by
-##'     \code{levels(r)[[1]]} has columns named \code{"ID"} and
-##'     \code{"VAL"}. \code{"ID"} should contain an entry for every
-##'     factor level present in the raster, while \code{"VAL"} gives
-##'     the values to which each level should be converted.
+##' @param r A categorical raster with a RAT (returned by
+##'     \code{levels(r)[[1]]}), whose first column contain an entry
+##'     for every factor level present in the raster. At least one of
+##'     the subsequent columns should contain numeric values to which
+##'     each level should be converted.
+##' @param which An integer or character string giving the index or
+##'     name of the column in \code{r}'s RAT with the numerical values
+##'     to which each value in \code{r} should be mapped. Default
+##'     value is \code{2}.
 ##' @return A continuous raster with each category level in \code{r}
 ##'     replaced by its corresponding value.
 ##' @export
 ##' @author Joshua O'Brien
 ##' @examples
-##' r_cat <- raster(matrix(c(2,2,2,1), ncol=2))
-##' levels(r_cat) <- data.frame(ID = c(1, 2), VAL = c(0.1, 200))
-##' r_con <- cat_to_val(r_cat)
-##' as.matrix(r_con)
-cat_to_val <- function(r) {
+##' r_cat <- raster(matrix(c(2, 2, 2, 1), ncol = 2))
+##' levels(r_cat) <- data.frame(ID = c(1, 2),
+##'                             VAL1 = c(0.1, 200),
+##'                             VAL2 = c(33, 44))
+##' r_con1 <- cat_to_val(r_cat)
+##' as.matrix(r_con1)
+##' r_con2 <- cat_to_val(r_cat, which = "VAL2")
+##' as.matrix(r_con2)
+cat_to_val <- function(r, which = 2) {
     dict <- levels(r)[[1]]
-    subsDT(r, dict)
+    subsDT(r, dict, which = which)
 }
