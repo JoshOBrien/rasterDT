@@ -52,10 +52,10 @@ setMethod("freqDT", signature(x = "RasterLayer"),
                 DT <- data.table(ID = getValues(x))
                 DT[, ID := round(ID, digits = digits)]
                 out <-
-                    if(is.na(value)) {
-                        DT[is.na(ID), .N]
+                    if (is.na(value)) {
+                        DT[, sum(is.na(ID))]
                     } else {
-                        DT[ID == value, .N]
+                        DT[, sum(ID == value, na.rm = TRUE)]
                     }
             } else {
                 tr <- blockSize(x)
@@ -65,10 +65,10 @@ setMethod("freqDT", signature(x = "RasterLayer"),
                                                     nrows = tr$nrows[i]))
                     DT[, ID := round(ID, digits = digits)]
                     res[i] <-
-                        if(is.na(value)) {
-                            DT[is.na(ID),.N]
+                        if (is.na(value)) {
+                            DT[, sum(is.na(ID))]
                         } else {
-                            DT[ID == value, .N]
+                            DT[, sum(ID == value, na.rm = TRUE)]
                         }
                 }
                 out <- sum(res)
@@ -115,13 +115,18 @@ setMethod("freqDT", signature(x = "RasterStackBrick"),
              merge = FALSE,
              ...) {
         nl <- nlayers(x)
-        res <- list()
+        res <- vector(length = nl, mode = "list")
         for (i in 1:nl) {
             res[[i]] <- freqDT(raster(x, i), digits = digits,
-                               useNA = useNA, progress = "", ...)
+                               value = value, useNA = useNA,
+                               progress = "", ...)
 
         }
         names(res) <- names(x)
+        if (!is.null(value)) {
+            res <- unlist(res)
+            return(res)
+        }
         if(merge) {
             r <- Reduce(function(x, y) merge(x, y, all = TRUE), res)
             names(r)[-1] <- names(x)
