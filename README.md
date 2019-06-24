@@ -146,24 +146,6 @@ out_subs <- subs(regions, dict)
 
 ### `fasterizeDT()` vs `rasterize()`: ~25x speedup
 
-Unlike the other functions in this package, `fasterizeDT()` does not
-use **data.table** "under the hood" to speed up its
-computations. Instead, it is a wrapper for
-[fasterize::fasterize](https://github.com/ecohealthalliance/fasterize),
-a terrifically fast function for rasterizing spatial polygons into
-`RasterLayer`s.
-
-`rasterDT::fasterizeDT()` cures several infelicities of
-`fasterize::fasterize()`. Most usefully, unlike
-`fasterize::fasterize()`, `fasterizeDT()` properly handles
-rasterization operations in which either the template `RasterLayer` or
-the selected polygon feature field is a factor. Specifically,
-`fasterizeDT()` always returns a raster whose type (numeric or factor)
-and levels (if a factor) match that of the spatial polygon attribute
-indicated by its `field=` argument. (See
-[here](https://github.com/ecohealthalliance/fasterize/issues/26) for
-more details.)
-
 ``` r
 ## rasterize()'s field= argument can handle factor but not character vectors
 regions_shp$NAME_FAC <- factor(regions_shp$NAME_1)

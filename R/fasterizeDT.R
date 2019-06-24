@@ -3,32 +3,62 @@
 ##' \code{\link[fasterize:fasterize]{fasterize::fasterize()}}, fixing
 ##' several of its infelicities.
 ##'
-##' @title Fixed up fasterize Function
-##' @param x An \code{sf::sf()} object with a geometry column of
-##'     \code{POLYGON} and/or \code{MULTIPOLYGON} objects or a
+##' Unlike other functions in this package, \code{fasterizeDT()} does
+##' not use \code{data.table} to speed up its computations. Instead,
+##' it is a wrapper for \code{fasterize::fasterize()}, intended to
+##' address several of that function's limitations.
+##'
+##' Most importantly, \code{fasterizeDT()} takes care to properly
+##' handle rasterization operations in which either the template
+##' \code{RasterLayer} or the selected polygon feature field is a
+##' factor. Specifically, it always returns a raster whose type
+##' (numeric or factor) and levels (if a factor) match that of the
+##' spatial polygon attribute indicated by its \code{field} argument.
+##' Second, when \code{field} specifies an attribute of class
+##' \code{"character"}, \code{fasterizeDT()} automatically converts it
+##' to a factor and returns a factor raster. In this, it is unlike
+##' both \code{fasterize::fasterize()} and
+##' \code{raster::rasterize()}. Finally, unlike
+##' \code{fasterize::fasterize()}, \code{fasterizeDT()} accepts as
+##' inputs either \code{sf::sf()} objects or
+##' \code{sp::SpatialPolygonsDataFrame} objects.
+##'
+##' @title Fast polygon rasterization using numeric, factor, or
+##'     character fields
+##' @param x Either an \code{sf::sf()} object with a geometry column
+##'     of \code{POLYGON} and/or \code{MULTIPOLYGON} objects or a
 ##'     \code{sp::SpatialPolygonsDataFrame} object.
-##' @param raster A raster object. Used as a template for the raster
-##'     output
-##' @param field character. The name of a column in \code{x},
-##'     providing a value for each of the polygons rasterized. If NULL
-##'     (default), all polygons will be given a value of 1.
-##' @param fun \code{?fasterize::fasterize}
+##' @param raster A \code{RasterLayer} object to be used as a template
+##'     for the raster output.
+##' @param field Character. The name of a column in \code{x},
+##'     providing a value for each of the polygons rasterized. If
+##'     \code{NULL} (the default), all polygons will be given a value
+##'     of \code{1}.
+##' @param fun Character. The name of a function by which to combine
+##'     overlapping polygons. Currently takes \code{"sum"},
+##'     \code{"first"}, \code{"last"}, \code{"min"}, \code{"max"},
+##'     \code{"count"}, or \code{"any"}. For more details, see
+##'     \code{\link[fasterize:fasterize]{?fasterize::fasterize}}.
 ##' @param background Value to put in the cells that are not covered
-##'     by any of the features of x. Default is NA.
-##' @param by \code{?fasterize::fasterize}
+##'     by any of the features of \code{x}. Default is \code{NA}.
+##' @param by Character string giving the name of a column in \code{x}
+##'     by which to aggregate layers. If set, \code{fasterizeDT} will
+##'     return a \code{RasterBrick} with as many layers as unique
+##'     values of the \code{by} column.
 ##' @return A raster of the same size, extent, resolution and
 ##'     projection as the supplied raster template. Unlike
 ##'     \code{\link[fasterize:fasterize]{fasterize::fasterize()}},
 ##'     \code{fasterizeDT} returns a raster of the same type as the
-##'     data in the column of \code{x} column selected by the
-##'     \code{field} argument.
+##'     data in the column of \code{x} selected by the \code{field}
+##'     argument.
 ##' @importFrom fasterize fasterize
 ##' @importFrom sf st_as_sf
 ##' @export
 ##' @author Joshua O'Brien
 ##' @examples
+##' ## Load example polygons and prepare a template raster
 ##' SPDF <- shapefile(system.file("external/lux.shp", package = "raster"))
-##' llratio <- 1/cos(pi * mean(coordinates(SPDF)[,2])/180)
+##' llratio <- 1/cos(pi * mean(coordinates(SPDF)[, 2])/180)
 ##' rr <- raster(extent(SPDF),
 ##'              resolution = c(llratio * 0.01, 0.01),
 ##'              crs = proj4string(SPDF))
