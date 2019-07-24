@@ -43,7 +43,7 @@ A \code{RasterLayer} object.
 }
 \description{
 A fast \code{data.table}-based alternative to
-\code{\link[raster:substitute]{raster::subs()}}.
+\code{\link[raster:subs]{raster::subs()}}.
 }
 \examples{
 r <- raster(ncol = 10, nrow = 10)

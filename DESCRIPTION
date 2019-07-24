@@ -18,7 +18,8 @@ Imports:
   fasterize,
   sf
 Suggests:
-  rasterVis
+  rasterVis,
+  rgdal
 LazyData: true
 License: GPL (>= 2)
 Encoding: UTF-8

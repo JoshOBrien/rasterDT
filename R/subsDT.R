@@ -1,6 +1,6 @@
 
 ##' A fast \code{data.table}-based alternative to
-##' \code{\link[raster:substitute]{raster::subs()}}.
+##' \code{\link[raster:subs]{raster::subs()}}.
 ##'
 ##' @title Speedy Substitution of Values in a Raster
 ##' @param x Categorical \code{RasterLayer} with integer values giving

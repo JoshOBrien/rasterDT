@@ -71,7 +71,7 @@ inputs either \code{sf::sf()} objects or
 }
 \examples{
 ## Load example polygons and prepare a template raster
-SPDF <- shapefile(system.file("external/lux.shp", package = "raster"))
+SPDF <- rgdal::readOGR(system.file("external", package = "raster"), "lux")
 llratio <- 1/cos(pi * mean(coordinates(SPDF)[, 2])/180)
 rr <- raster(extent(SPDF),
              resolution = c(llratio * 0.01, 0.01),
