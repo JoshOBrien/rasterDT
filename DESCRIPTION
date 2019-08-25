@@ -2,7 +2,7 @@ Package: rasterDT
 Type: Package
 Title: Fast Raster Summary and Manipulation 
 Version: 0.2.1
-Date: 2019-06-17
+Date: 2019-08-24
 Author: Joshua O'Brien
 Maintainer: Joshua O'Brien <joshmobrien@gmail.com>
 Description:
