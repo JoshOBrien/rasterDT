@@ -65,11 +65,12 @@ subsDT <- function(x, dict,
         DT <- data.table(ID = getValues(x))
         names(DT) <- by
         for (i in 1:nx) {
-            vals <- dict[DT[, ..i], , on = by[i]][[which[i]]]
+            vals <- dict[DT[, ..i], , on = by[i], which = TRUE]
+            nn <- is.na(vals)
             if (isFALSE(subsWithNA)) {
-                nn <- is.na(vals)
                 vals[nn] <- DT[[i]][nn]
             }
+            vals[!nn] <- dict[DT[, ..i], , on = by[i], nomatch = NULL][[which[i]]]
             ll[[i]] <- vals
         }
         vals <- as.matrix(as.data.table(ll))
@@ -94,11 +95,12 @@ subsDT <- function(x, dict,
                                             nrows = tr$nrows[i]))
             names(DT) <- by
             for (j in 1:nx) {
-                vals <- dict[DT[, ..j], , on = by[j]][[which[j]]]
+                vals <- dict[DT[, ..j], , on = by[j], which = TRUE]
+                nn <- is.na(vals)
                 if (isFALSE(subsWithNA)) {
-                    nn <- is.na(vals)
                     vals[nn] <- DT[[j]][nn]
                 }
+                vals[!nn] <- dict[DT[, ..j], , on = by[j], nomatch = NULL][[which[i]]]
                 ll[[j]] <- vals
             }
             vals <- as.matrix(as.data.table(ll))
