@@ -100,7 +100,7 @@ subsDT <- function(x, dict,
                 if (isFALSE(subsWithNA)) {
                     vals[nn] <- DT[[j]][nn]
                 }
-                vals[!nn] <- dict[DT[, ..j], , on = by[j], nomatch = NULL][[which[i]]]
+                vals[!nn] <- dict[DT[, ..j], , on = by[j], nomatch = NULL][[which[j]]]
                 ll[[j]] <- vals
             }
             vals <- as.matrix(as.data.table(ll))
@@ -112,4 +112,3 @@ subsDT <- function(x, dict,
         return(out)
     }
 }
-
