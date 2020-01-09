@@ -68,6 +68,12 @@ subsDT <- function(x, dict,
             vals <- dict[DT[, ..i], , on = by[i]][[which[i]]]
             if (isFALSE(subsWithNA)) {
                 nn <- is.na(vals)
+                ## Handle values mapped to NA or NaN by dict
+                NA_keys <- dict[[by[i]]][is.na(dict[[which[i]]])]
+                if (length(NA_keys)) {
+                    nn[DT[[i]] %in% NA_keys] <- FALSE
+                }
+                ## Restore unmatched cells to their original values
                 vals[nn] <- DT[[i]][nn]
             }
             ll[[i]] <- vals
@@ -97,6 +103,12 @@ subsDT <- function(x, dict,
                 vals <- dict[DT[, ..j], , on = by[j]][[which[j]]]
                 if (isFALSE(subsWithNA)) {
                     nn <- is.na(vals)
+                    ## Handle values mapped to NA or NaN by dict
+                    NA_keys <- dict[[by[j]]][is.na(dict[[which[j]]])]
+                    if (length(NA_keys)) {
+                        nn[DT[[j]] %in% NA_keys] <- FALSE
+                    }
+                    ## Restore unmatched cells to their original values
                     vals[nn] <- DT[[j]][nn]
                 }
                 ll[[j]] <- vals
