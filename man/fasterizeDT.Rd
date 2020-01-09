@@ -5,8 +5,14 @@
 \title{Fast polygon rasterization using numeric, factor, or
     character fields}
 \usage{
-fasterizeDT(x, raster, field = NULL, fun = "last",
-  background = NA_real_, by = NULL)
+fasterizeDT(
+  x,
+  raster,
+  field = NULL,
+  fun = "last",
+  background = NA_real_,
+  by = NULL
+)
 }
 \arguments{
 \item{x}{Either an \code{sf::sf()} object with a geometry column

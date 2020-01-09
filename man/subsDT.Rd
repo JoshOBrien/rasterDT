@@ -4,8 +4,7 @@
 \alias{subsDT}
 \title{Speedy Substitution of Values in a Raster}
 \usage{
-subsDT(x, dict, by = 1, which = 2, subsWithNA = TRUE,
-  filename = "", ...)
+subsDT(x, dict, by = 1, which = 2, subsWithNA = TRUE, filename = "", ...)
 }
 \arguments{
 \item{x}{Categorical \code{RasterLayer} with integer values giving

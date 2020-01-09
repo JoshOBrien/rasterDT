@@ -23,4 +23,4 @@ Suggests:
 LazyData: true
 License: GPL (>= 2)
 Encoding: UTF-8
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
