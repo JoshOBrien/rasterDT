@@ -78,7 +78,7 @@ fasterizeDT <- function (x,
                          fun = "last",
                          background = NA_real_,
                          by = NULL) {
-    if (class(x) == "SpatialPolygonsDataFrame") {
+    if (inherits(x, "SpatialPolygonsDataFrame")) {
         x <- st_as_sf(x)
     }
     if (is.null(field)) {
