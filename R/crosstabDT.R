@@ -63,10 +63,10 @@ crosstabDT <- function(x, y, digits = 0,
         for (i in 1:tr$n) {
             ##
             if (nlayers(x) == 1) {
-                data.table(x = getValues(x, row = tr$row[i],
-                                         nrows = tr$nrows[i]),
-                           y = getValues(y, row = tr$row[i],
-                                         nrows = tr$nrows[i]))
+                DT <- data.table(x = getValues(x, row = tr$row[i],
+                                               nrows = tr$nrows[i]),
+                                 y = getValues(y, row = tr$row[i],
+                                               nrows = tr$nrows[i]))
             } else {
                 DT <- data.table(getValues(x, row = tr$row[i],
                                             nrows = tr$nrows[i]))
@@ -80,7 +80,7 @@ crosstabDT <- function(x, y, digits = 0,
             res[[i]] <- X
         }
         X <- rbindlist(res)
-        nms <- setdiff(names(x), "Freq")
+        nms <- setdiff(names(X), "Freq")
         setkeyv(X, nms)
         X <- X[, .(Freq = sum(Freq)), by = nms]
         if (!long) {
