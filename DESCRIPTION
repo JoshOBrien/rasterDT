@@ -10,6 +10,9 @@ Description:
   functions. For large rasters, the functions run from 5 to
   approximately 100 times faster than the raster package functions
   they replace.
+License: GPL (>= 2)
+URL: https://github.com/JoshOBrien/rasterDT/
+BugReports: https://github.com/JoshOBrien/rasterDT/issues/
 Depends:
   methods,
   raster,
@@ -21,6 +24,5 @@ Suggests:
   rasterVis,
   rgdal
 LazyData: true
-License: GPL (>= 2)
 Encoding: UTF-8
 RoxygenNote: 7.0.2
