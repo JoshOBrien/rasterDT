@@ -47,7 +47,11 @@ crosstabDT <- function(x, y, digits = 0,
         } else {
             DT <- data.table(getValues(x))
         }
-        DT <- round(DT, digits)
+        ## Only round numeric columns
+        cols <- colnames(DT)[sapply(DT, is.numeric)]
+        for (j in cols) {
+            set(DT, j = j, value = round(DT[[j]], digits))
+        }
         if (!useNA) {
             DT <- DT[complete.cases(DT),]
         }
@@ -72,7 +76,11 @@ crosstabDT <- function(x, y, digits = 0,
                                             nrows = tr$nrows[i]))
             }
             ##
-            DT <- round(DT, digits)
+            ## Only round numeric columns
+            cols <- colnames(DT)[sapply(DT, is.numeric)]
+            for (j in cols) {
+                set(DT, j = j, value = round(DT[[j]], digits))
+            }
             if (!useNA) {
                 DT <- DT[complete.cases(DT),]
             }
