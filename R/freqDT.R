@@ -50,7 +50,9 @@ setMethod("freqDT", signature(x = "RasterLayer"),
         if (!is.null(value)) {
             if (canProcessInMemory(x, 3)) {
                 DT <- data.table(ID = getValues(x))
-                DT[, ID := round(ID, digits = digits)]
+                if (is.numeric(DT[["ID"]])) {
+                    DT[, ID := round(ID, digits = digits)]
+                }
                 out <-
                     if (is.na(value)) {
                         DT[, sum(is.na(ID))]
@@ -63,7 +65,9 @@ setMethod("freqDT", signature(x = "RasterLayer"),
                 for (i in seq_len(tr$n)) {
                     DT <- data.table(ID = getValues(x, row = tr$row[i],
                                                     nrows = tr$nrows[i]))
-                    DT[, ID := round(ID, digits = digits)]
+                    if (is.numeric(DT[["ID"]])) {
+                        DT[, ID := round(ID, digits = digits)]
+                    }
                     res[i] <-
                         if (is.na(value)) {
                             DT[, sum(is.na(ID))]
@@ -79,7 +83,9 @@ setMethod("freqDT", signature(x = "RasterLayer"),
         ## Tabulate frequencies of all cell values
         if (canProcessInMemory(x, 3)) {
             DT <- data.table(ID = getValues(x))
-            DT[, ID := round(ID, digits = digits)]
+            if (is.numeric(DT[["ID"]])) {
+                DT[, ID := round(ID, digits = digits)]
+            }
             out <- DT[, list(freq = .N), by = "ID"]
         } else {
             tr <- blockSize(x)
@@ -87,7 +93,9 @@ setMethod("freqDT", signature(x = "RasterLayer"),
             for (i in seq_len(tr$n)) {
                 DT <- data.table(ID = getValues(x, row = tr$row[i],
                                                 nrows = tr$nrows[i]))
-                DT[, ID := round(ID, digits = digits)]
+                if (is.numeric(DT[["ID"]])) {
+                    DT[, ID := round(ID, digits = digits)]
+                }
                 X <- DT[, list(freq = .N), by = "ID"]
                 res[[i]] <- X
             }
