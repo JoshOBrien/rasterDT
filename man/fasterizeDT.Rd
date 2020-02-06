@@ -2,8 +2,8 @@
 % Please edit documentation in R/fasterizeDT.R
 \name{fasterizeDT}
 \alias{fasterizeDT}
-\title{Fast polygon rasterization using numeric, factor, or
-    character fields}
+\title{Polygon Rasterization Using Numeric, Factor, or
+    Character Fields}
 \usage{
 fasterizeDT(
   x,

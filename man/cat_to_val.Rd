@@ -23,8 +23,8 @@ A continuous raster with each category level in \code{r}
     replaced by its corresponding value.
 }
 \description{
-Use a Categorical Raster's RAT to convert it to a Continuous
-Raster
+Use a categorical raster's RAT to convert it to a continuous
+raster
 }
 \examples{
 r_cat <- raster(matrix(c(2, 2, 2, 1), ncol = 2))

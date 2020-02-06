@@ -4,7 +4,7 @@
 \alias{freqDT}
 \alias{freqDT,RasterLayer-method}
 \alias{freqDT,RasterStackBrick-method}
-\title{Speedy Frequency Tabulation of Values in a RasterLayer}
+\title{Speedy Raster Value Frequency Tabulation}
 \usage{
 freqDT(x, ...)
 

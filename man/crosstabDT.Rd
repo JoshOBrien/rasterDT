@@ -27,7 +27,7 @@ is \code{FALSE}.}
 }
 \value{
 Either a table or a \code{data.table} recording the
-    frequency of each combination of Raster values.
+    frequency of each combination of raster values.
 }
 \description{
 A fast \code{data.table}-based alternative to

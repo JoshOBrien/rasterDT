@@ -4,7 +4,7 @@
 ##'
 ##' @name freqDT
 ##' @rdname freqDT
-##' @title Speedy Frequency Tabulation of Values in a RasterLayer
+##' @title Speedy Raster Value Frequency Tabulation
 ##' @param x A \code{RasterLayer}, \code{RasterStack}, or
 ##'     \code{RasterBrick} object field class.
 ##' @param digits Integer for rounding the cell values. Argument is

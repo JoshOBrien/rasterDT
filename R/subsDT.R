@@ -2,7 +2,7 @@
 ##' A fast \code{data.table}-based alternative to
 ##' \code{\link[raster:subs]{raster::subs()}}.
 ##'
-##' @title Speedy Substitution of Values in a Raster
+##' @title Speedy Raster Value Substitution
 ##' @param x Categorical \code{RasterLayer} with integer values giving
 ##'     field class.
 ##' @param dict A \code{data.frame} or \code{data.table} with one (or

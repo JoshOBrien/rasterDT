@@ -1,15 +1,18 @@
 Package: rasterDT
 Type: Package
 Title: Fast Raster Summary and Manipulation 
-Version: 0.3.0
-Date: 2020-01-24
+Version: 0.3.1
+Date: 2020-02-06
 Author: Joshua O'Brien
 Maintainer: Joshua O'Brien <joshmobrien@gmail.com>
 Description:
-  Fast alternatives to several relatively slow raster package
+  Fast alternatives to several relatively slow 'raster' package
   functions. For large rasters, the functions run from 5 to
-  approximately 100 times faster than the raster package functions
-  they replace.
+  approximately 100 times faster than the 'raster' package functions
+  they replace. The 'fasterize' package, on which one function in this
+  package depends, includes an implementation of the scan line
+  algorithm attributed to Wylie et al. (1967)
+  <doi:10.1145/1465611.1465619>.
 License: GPL (>= 2)
 URL: https://github.com/JoshOBrien/rasterDT/
 BugReports: https://github.com/JoshOBrien/rasterDT/issues/

@@ -23,8 +23,8 @@
 ##' inputs either \code{sf::sf()} objects or
 ##' \code{sp::SpatialPolygonsDataFrame} objects.
 ##'
-##' @title Fast polygon rasterization using numeric, factor, or
-##'     character fields
+##' @title Polygon Rasterization Using Numeric, Factor, or
+##'     Character Fields
 ##' @param x Either an \code{sf::sf()} object with a geometry column
 ##'     of \code{POLYGON} and/or \code{MULTIPOLYGON} objects or a
 ##'     \code{sp::SpatialPolygonsDataFrame} object.

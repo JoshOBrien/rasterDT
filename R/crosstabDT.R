@@ -17,7 +17,7 @@
 ##'     \code{data.table} include counts of \code{NA} values? Default
 ##'     is \code{FALSE}.
 ##' @return Either a table or a \code{data.table} recording the
-##'     frequency of each combination of Raster values.
+##'     frequency of each combination of raster values.
 ##' @import methods
 ##' @import raster
 ##' @rawNamespace import(data.table, except = shift)

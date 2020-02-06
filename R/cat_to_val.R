@@ -1,6 +1,6 @@
 
-##' Use a Categorical Raster's RAT to convert it to a Continuous
-##' Raster
+##' Use a categorical raster's RAT to convert it to a continuous
+##' raster
 ##' @title Convert a Categorical Raster to a Value Raster
 ##' @param r A categorical raster with a RAT (returned by
 ##'     \code{levels(r)[[1]]}), whose first column contain an entry

@@ -2,7 +2,7 @@
 % Please edit documentation in R/subsDT.R
 \name{subsDT}
 \alias{subsDT}
-\title{Speedy Substitution of Values in a Raster}
+\title{Speedy Raster Value Substitution}
 \usage{
 subsDT(x, dict, by = 1, which = 2, subsWithNA = TRUE, filename = "", ...)
 }
