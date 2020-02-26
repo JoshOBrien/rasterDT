@@ -36,7 +36,7 @@ levels(r_cat) <- data.frame(ID = c(1, 2),
 r_con1 <- cat_to_val(r_cat)
 as.matrix(r_con1)
 
-## Use `which=` argument for conversion to another RAT column
+## Use 'which=' argument for conversion to another RAT column
 r_con2 <- cat_to_val(r_cat, which = "VAL2")
 as.matrix(r_con2)
 }
