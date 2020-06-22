@@ -3,6 +3,7 @@
 =========
 
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+[![License](https://JoshOBrien.github.io/badges/GPL2+.svg)](http://www.gnu.org/licenses/gpl-2.0.html)
 [![](http://www.r-pkg.org/badges/version/rasterDT)](http://www.r-pkg.org/pkg/rasterDT)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/rasterDT)](http://www.r-pkg.org/pkg/rasterDT)
 
