@@ -2,6 +2,10 @@
 **rasterDT**: fast alternatives to **raster** package functions. 
 =========
 
+[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+[![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/rasterDT)](http://www.r-pkg.org/pkg/rasterDT)
+
+
 **rasterDT** uses the fast indexing, aggregation, and assignment
 operations provided by **data.table** to power speedy alternatives to
 several **raster** package functions. The functions that it provides
