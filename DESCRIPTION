@@ -1,8 +1,8 @@
 Package: rasterDT
 Type: Package
 Title: Fast Raster Summary and Manipulation 
-Version: 0.3.1
-Date: 2020-02-26
+Version: 0.3.2
+Date: 2022-12-25
 Author: Joshua O'Brien
 Maintainer: Joshua O'Brien <joshmobrien@gmail.com>
 Description:
@@ -24,8 +24,7 @@ Imports:
   fasterize,
   sf
 Suggests:
-  rasterVis,
-  rgdal
+  rasterVis
 LazyData: true
 Encoding: UTF-8
-RoxygenNote: 7.0.2
+RoxygenNote: 7.2.3

@@ -76,8 +76,10 @@ inputs either \code{sf::sf()} objects or
 \code{sp::SpatialPolygonsDataFrame} objects.
 }
 \examples{
+\donttest{
 ## Load example polygons and prepare a template raster
-SPDF <- rgdal::readOGR(system.file("external", package = "raster"), "lux")
+if (require(raster)) {
+SPDF <- shapefile(system.file("external/lux.shp", package = "raster"))
 llratio <- 1/cos(pi * mean(coordinates(SPDF)[, 2])/180)
 rr <- raster(extent(SPDF),
              resolution = c(llratio * 0.01, 0.01),
@@ -91,6 +93,8 @@ plot(rInt, col = colorRampPalette(blues9)(12))
 rFac <- fasterizeDT(SPDF, rr, field = "NAME_2")
 if (require(rasterVis)) {
     levelplot(rFac)
+}
+}
 }
 }
 \author{
