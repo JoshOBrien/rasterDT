@@ -3,3 +3,6 @@ README.html
 TODO.org
 img/*
 ^\.github$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

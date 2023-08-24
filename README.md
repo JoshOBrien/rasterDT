@@ -79,7 +79,7 @@ precip1 <- mask(precip1, regions)
 The three resulting rasters are displayed (using plotting calls not
 shown here) in the figure below:
 
-![](img/Peru-rasters.png)
+![](man/figures/Peru-rasters.png)
 <br/>
 
 Next, to estimate the degree of speedup gained by using each

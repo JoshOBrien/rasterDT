@@ -14,7 +14,7 @@ Description:
   algorithm attributed to Wylie et al. (1967)
   <doi:10.1145/1465611.1465619>.
 License: GPL (>= 2)
-URL: https://github.com/JoshOBrien/rasterDT/
+URL: https://github.com/JoshOBrien/rasterDT/, https://joshobrien.github.io/rasterDT/
 BugReports: https://github.com/JoshOBrien/rasterDT/issues/
 Depends:
   methods,
