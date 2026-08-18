@@ -20,7 +20,7 @@
 ##'     frequency of each combination of raster values.
 ##' @import methods
 ##' @import raster
-##' @rawNamespace import(data.table, except = shift)
+##' @importFrom data.table := .N .SD as.data.table copy data.table is.data.table rbindlist set setkey setkeyv
 ##' @importFrom stats complete.cases
 ##' @export
 ##' @author Joshua O'Brien
