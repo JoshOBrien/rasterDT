@@ -3,8 +3,10 @@ Type: Package
 Title: Fast Raster Summary and Manipulation 
 Version: 0.3.3
 Date: 2026-08-28
-Author: Joshua O'Brien
-Maintainer: Joshua O'Brien <joshmobrien@gmail.com>
+Authors@R: person(given = "Joshua",
+                  family = "O'Brien",
+                  role = c("aut", "cre"),
+                  email = "joshmobrien@gmail.com")
 Description:
   Fast alternatives to several relatively slow 'raster' package
   functions. For large rasters, the functions run from 5 to
@@ -26,4 +28,4 @@ Imports:
 Suggests:
   rasterVis
 Encoding: UTF-8
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0

@@ -38,11 +38,6 @@
 ##'
 ##' df$v2 <- df$v * 10
 ##' x3 <- subsDT(r, df, which = 2:3)
-##'
-##' s <- stack(r, r*3)
-##' names(s) <- c("first", "second")
-##' x4 <- subsDT(s, df)
-##' x5 <- subsDT(s, df, which = 2:3)
 subsDT <- function(x, dict,
                    by = 1, which = 2,
                    subsWithNA = TRUE,
@@ -123,3 +118,10 @@ subsDT <- function(x, dict,
     }
 }
 
+
+## Code formerly in Examples section. No longer working, so needs edits.
+##
+## s <- stack(r, r*3)
+## names(s) <- c("first", "second")
+## x4 <- subsDT(s, df)
+## x5 <- subsDT(s, df, which = 2:3)

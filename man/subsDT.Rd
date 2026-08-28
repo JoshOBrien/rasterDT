@@ -53,11 +53,6 @@ x2 <- subsDT(r, df, subsWithNA = FALSE)
 
 df$v2 <- df$v * 10
 x3 <- subsDT(r, df, which = 2:3)
-
-s <- stack(r, r*3)
-names(s) <- c("first", "second")
-x4 <- subsDT(s, df)
-x5 <- subsDT(s, df, which = 2:3)
 }
 \author{
 Joshua O'Brien

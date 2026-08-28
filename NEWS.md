@@ -3,7 +3,7 @@
 * Moved **data.table** from Depends to Imports, at request of Michael Chirico
   (#7). For more details on the rationale for doing so, see
   [here](https://github.com/Rdatatable/data.table/issues/3076) and
-  [here](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-importing.html).
+  [here](https://CRAN.R-project.org/package=data.table/vignettes/datatable-importing.html).
 
 
 ## Version 0.3.2
