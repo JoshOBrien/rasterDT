@@ -2,7 +2,7 @@
 
 ## Authors
 
-- **Joshua O'Brien**. Maintainer.
+- **Joshua O'Brien**. Author, maintainer.
 
 ## Citation
 

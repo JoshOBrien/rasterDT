@@ -6,7 +6,7 @@
   Chirico ([\#7](https://github.com/JoshOBrien/rasterDT/issues/7)). For
   more details on the rationale for doing so, see
   [here](https://github.com/Rdatatable/data.table/issues/3076) and
-  [here](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-importing.html).
+  [here](https://CRAN.R-project.org/package=data.table/vignettes/datatable-importing.html).
 
 ## Version 0.3.2
 

@@ -19,6 +19,6 @@ faster than the raster package functions they replace.
 
 ## Author
 
-Joshua O'Brien
+Joshua O'Brien \[aut, cre\]
 
 Maintainer: Joshua O'Brien \<joshmobrien@gmail.com\>
