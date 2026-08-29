@@ -2,6 +2,8 @@
 
 ## Version 0.3.3
 
+CRAN release: 2026-08-29
+
 - Moved **data.table** from Depends to Imports, at request of Michael
   Chirico ([\#7](https://github.com/JoshOBrien/rasterDT/issues/7)). For
   more details on the rationale for doing so, see
